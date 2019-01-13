@@ -1,0 +1,194 @@
+{
+    "template": "<style>\n  .{{config.css_prefix}}calendar-header {\n  \tposition: absolute;\n    top: 0;\n    left: 0;\n    padding-top: 10px;\n    text-align: center;\n    width: 100%;\n    font-size: {{config.fontsize_header}};\n  \tcolor: {{config.color_header}};\n  }\n  .{{config.css_prefix}}calendar-body {\n\t\ttop: 0px;\n    display: flex;\n    flex-direction: column; \n    justify-content: space-between;\n    position: relative;\n    padding: 10px;\n  }\n  .{{config.css_prefix}}body-row {\n    display: flex;\n    flex-direction: column;\n    justify-content: space-between;\n    text-align: left;\n    flex-shrink: 0;\n    padding-top: 5px;\n  }\n  hr.{{config.css_prefix}}header-line { \n  \tborder: 0; \n  \theight: 1px; \n  \tmargin: 0px;\n  \tbackground-image: -webkit-linear-gradient(left, #212124, #666666, #FFFFFF, #666666, #212124);\n\t}\n  div.{{config.css_prefix}}event-date {\n  \tfont-size: {{config.fontsize_date}};\n  \tcolor: {{config.color_date}};\n  }\n  div.{{config.css_prefix}}event-name {\n  \tfont-size: {{config.fontsize_name}};\n  \tcolor: {{config.color_name}};\n  \twhite-space: nowrap;\n  \toverflow: hidden; \n  \ttext-overflow: ellipsis;\n  }\n  span.{{config.css_prefix}}event-time {\n  \tfont-size: {{config.fontsize_time}};\n    color: {{config.color_time}};\n  }\n\t\n</style>\n<div class=\"{{config.css_prefix}}calendar-header\">\t\t\t\t\n  <a ng-if=\"config.header_link_target\" href=\"{{config.header_link_target}}\" target=\"_blank\">{{config.header_text}}</a>\n  <span ng-if=\"!config.header_link_target\">{{config.header_text}}</span>\n  <hr class=\"{{config.css_prefix}}header-line\"/>\n</div>\n<div class=\"{{config.css_prefix}}calendar-body\">\n  <div ng-repeat=\"n in [].constructor( 10 ) track by $index\">    \n      <div ng-if=\"config.number_of_upcoming_events > $index && itemValue(config['event_'+ ($index+1)] +  '_start') != 'UNDEF'\" class=\"{{config.css_prefix}}body-row\" \n    \t\t\t\tng-init=\"item_eventName = config['event_' + ($index+1)];\n                  item_eventEndDate = config['event_' + ($index+1)] + '_end'; \n                  item_eventStartDate = config['event_' + ($index+1)] + '_start';\">\n      \t  <div class=\"{{config.css_prefix}}event-date\">\n            {{itemValue(item_eventStartDate) | date:config.date_pattern}}&nbsp;&nbsp; \n            <span ng-if=\"(config.show_time)\" class=\"{{config.css_prefix}}event-time\">{{itemValue(item_eventStartDate) | date:'HH:mm'}} - {{itemValue(item_eventEndDate) | date:config.time_pattern}}</span>\n            <span ng-if=\"(config.show_time) && (itemValue(item_eventStartDate) | date:'yMd') != (itemValue(item_eventEndDate) | date:'yMd')\" class=\"{{config.css_prefix}}event-time\">({{itemValue(item_eventEndDate) | date:config.date_pattern}})</span>\n          </div>\n          <div class=\"{{config.css_prefix}}event-name\">{{itemValue(item_eventName)}}</div>\n      </div>  \n  </div>  \n</div>",
+    "name": "Calendar Event Preview",
+    "settings": [
+        {
+            "type": "heading",
+            "id": "general_settings",
+            "label": "General Settings"
+        },
+        {
+            "type": "choice",
+            "id": "number_of_upcoming_events",
+            "label": "Number Of Events",
+            "default": "10",
+            "choices": "1,2,3,4,5,6,7,8,9,10",
+            "description": "How many events should be shown in the list"
+        },
+        {
+            "type": "string",
+            "id": "css_prefix",
+            "label": "CSS Prefix",
+            "description": "A unique identifier to make CSS classes unique for the case  the widget should be  used multiple times on the same dashboard with different style sheets"
+        },
+        {
+            "type": "heading",
+            "id": "header_settings",
+            "label": "Header Settings"
+        },
+        {
+            "type": "string",
+            "id": "header_text",
+            "label": "Header Text",
+            "default": "Upcoming Events"
+        },
+        {
+            "type": "string",
+            "id": "header_link_target",
+            "label": "Header Link",
+            "description": "URL to the Calendar, value can be left empty to disable hyperlink"
+        },
+        {
+            "type": "color",
+            "id": "color_header",
+            "label": "Color of Header Label",
+            "default": "#00CCFF"
+        },
+        {
+            "type": "string",
+            "id": "fontsize_header",
+            "default": "2.0vw",
+            "label": "Font Size Header"
+        },
+        {
+            "type": "heading",
+            "id": "date_settings",
+            "label": "Date Settings"
+        },
+        {
+            "type": "string",
+            "id": "date_pattern",
+            "label": "Date Pattern",
+            "default": "EEE dd. MMM"
+        },
+        {
+            "type": "color",
+            "id": "color_date",
+            "label": "Color of Date Label",
+            "default": "#00CCFF"
+        },
+        {
+            "type": "string",
+            "id": "fontsize_date",
+            "label": "Font Size Date",
+            "default": "1.5vw"
+        },
+        {
+            "type": "heading",
+            "id": "time_settings",
+            "label": "Time Settings"
+        },
+        {
+            "type": "checkbox",
+            "default": true,
+            "id": "show_time",
+            "label": "Show Event Time"
+        },
+        {
+            "type": "string",
+            "id": "time_pattern",
+            "label": "Time pattern",
+            "default": "HH:mm"
+        },
+        {
+            "type": "color",
+            "id": "color_time",
+            "label": "Color of Time Label",
+            "default": "#00CCFF"
+        },
+        {
+            "type": "string",
+            "id": "fontsize_time",
+            "default": "1.0vw",
+            "label": "Font Size Time"
+        },
+        {
+            "type": "heading",
+            "id": "name_settings",
+            "label": "Name Settings"
+        },
+        {
+            "type": "color",
+            "id": "color_name",
+            "label": "Color of Event Name Label",
+            "default": "#CCCCCC"
+        },
+        {
+            "type": "string",
+            "id": "fontsize_name",
+            "label": "Font Size Name",
+            "default": "1.5vw"
+        },
+        {
+            "type": "heading",
+            "id": "events_settings",
+            "label": "Events"
+        },
+        {
+            "type": "item",
+            "id": "event_1",
+            "label": "Event 1",
+            "default": "",
+            "description": "Item which is mapped to the name of the 1st event"
+        },
+        {
+            "type": "item",
+            "id": "event_2",
+            "label": "Event 2",
+            "default": "",
+            "description": "Item which is mapped to the name of the 2nd event"
+        },
+        {
+            "type": "item",
+            "id": "event_3",
+            "label": "Event 3",
+            "description": "Item which is mapped to the name of the 3rd event"
+        },
+        {
+            "type": "item",
+            "id": "event_4",
+            "label": "Event 4",
+            "description": "Item which is mapped to the name of the 4th event"
+        },
+        {
+            "type": "item",
+            "id": "event_5",
+            "label": "Event 5",
+            "description": "Item which is mapped to the name of the 5th event"
+        },
+        {
+            "type": "item",
+            "id": "event_6",
+            "label": "Event 6",
+            "description": "Item which is mapped to the name of the 6th event"
+        },
+        {
+            "type": "item",
+            "id": "event_7",
+            "label": "Event 7",
+            "description": "Item which is mapped to the name of the 7th event"
+        },
+        {
+            "type": "item",
+            "id": "event_8",
+            "label": "Event 8",
+            "description": "Item which is mapped to the name of the 8th event"
+        },
+        {
+            "type": "item",
+            "id": "event_9",
+            "label": "Event 9",
+            "description": "Item which is mapped to the name of the 9th event"
+        },
+        {
+            "type": "item",
+            "id": "event_10",
+            "label": "Event 10",
+            "description": "Item which is mapped to the name of the 10th event"
+        }
+    ],
+    "author": "Jep42",
+    "source_url": "https://raw.githubusercontent.com/jep42/calendar-preview-widget/master/calendar-preview.widget.json",
+    "readme_url": "https://github.com/jep42/calendar-preview-widget",
+    "description": "Displays preview of upcoming calendar events"
+}
